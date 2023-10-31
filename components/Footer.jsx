@@ -5,6 +5,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import Link from 'next/link';
 function Footer() {
 	return (
@@ -17,9 +18,9 @@ function Footer() {
 						</p>
 						<div className="flex gap-6 pb-5">
 							<FaInstagram className="text-2xl cursor-pointer hover:text-pink-600" />
-							<FaTwitter className="text-2xl cursor-pointer hover:text-blue-600" />
 							<FaLinkedin className="text-2xl cursor-pointer hover:text-blue-600" />
 							<FaYoutube className="text-2xl cursor-pointer hover:text-red-600" />
+							<FaGithub className="text-2xl cursor-pointer hover:text-gray-600" />
 						</div>
 					</ul>
 				</div>

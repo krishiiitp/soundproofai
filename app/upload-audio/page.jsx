@@ -87,9 +87,7 @@ const UploadAudio= () => {
                     width={1000}
                     height={1000}
                     className='object-contain pt-19'
-                    />
-                    <Image></Image>
-                    
+                    />                    
             </div>
             </div>
         </section>
