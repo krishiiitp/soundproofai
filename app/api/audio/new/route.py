@@ -1,28 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import pandas as pd
-from sklearn import preprocessing
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import KFold
-from sklearn.metrics import accuracy_score
-import time
 import numpy as np
 import librosa
+from model import model
+from pydub import AudioSegment
 app= Flask(__name__)
-dataset='./DATASET-balanced.csv'
-df = pd.read_csv(dataset)
-X = df.iloc[:, :-1]
-y = df.iloc[:, -1]
-lb = preprocessing.LabelBinarizer()
-lb.fit(y)
-y = lb.transform(y)
-y = y.ravel()
-model = RandomForestClassifier(n_estimators=50, random_state=1)
-kf = KFold(n_splits=5, shuffle=True, random_state=1)
-for train_index, test_index in kf.split(X):
-    X_train, X_test = X.iloc[train_index, :], X.iloc[test_index, :]
-    y_train, y_test = y[train_index], y[test_index]
-    model.fit(X_train, y_train)
 def extract_features(audio_file):
     audio, sr = librosa.load(audio_file, sr=None)
     chroma_stft = librosa.feature.chroma_stft(y=audio, sr=sr).mean(axis=0)
@@ -44,6 +26,7 @@ def predict():
     try:
         audio_file = request.files['file']
         if audio_file:
+            print("hello")
             input_features = extract_features(audio_file)
             prediction = model.predict(input_features)
             count_fake = np.sum(prediction == 0)

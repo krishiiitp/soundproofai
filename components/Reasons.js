@@ -1,6 +1,6 @@
 export let Reasons= [
     {
-      url: '/assets/images/expertise.png',
+      url: '/assets/images/choose.png',
       title: "Expertise",
       para:'Our team comprises experts in machine learning, audio processing, and data preprocessing along with great research interest.'
     },

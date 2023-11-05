@@ -11,7 +11,7 @@ const RootLayout=({children})=>{
         <html>
             <body>
             <Provider>
-                <div className="main">
+                <div className="main colorize-navy">
                     <div className="gradient" />
                 </div>
                 <main className="app">
