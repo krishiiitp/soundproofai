@@ -3,10 +3,12 @@ from flask_cors import CORS
 import numpy as np
 import librosa
 from model import model
-from pydub import AudioSegment
-app= Flask(__name__)
-def extract_features(audio_file):
-    audio, sr = librosa.load(audio_file, sr=None)
+import audioread
+import warnings
+warnings.filterwarnings("ignore", message="PySoundFile failed. Trying audioread instead.")
+app = Flask(__name__)
+def extract_features(some_file):
+    audio, sr = librosa.load(some_file, sr=None)
     chroma_stft = librosa.feature.chroma_stft(y=audio, sr=sr).mean(axis=0)
     rms = librosa.feature.rms(y=audio)[0]
     spectral_centroid = librosa.feature.spectral_centroid(y=audio, sr=sr)[0]
@@ -26,7 +28,6 @@ def predict():
     try:
         audio_file = request.files['file']
         if audio_file:
-            print("hello")
             input_features = extract_features(audio_file)
             prediction = model.predict(input_features)
             count_fake = np.sum(prediction == 0)
