@@ -1,9 +1,12 @@
 'use client'
 import Link from 'next/link'
+import '@styles/globals.css';
 import Image from "next/image";
-import {useState,useEffect} from 'react'
+import {useState} from 'react'
 import { FaMicrophone } from "react-icons/fa";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 const UploadAudio= () => {
+    const { data: session } = useSession();
     const [submitting,setSubmitting]=useState(false)
     const [audioFile,setAudioFile]=useState(null)
     const [result, setResult] = useState('')
@@ -15,8 +18,9 @@ const UploadAudio= () => {
         const file = e.target.files[0];
         setAudioFile(file);
     };  
-    const type="Upload"
+    const type="Upload";
     const uploadAudio=async(e)=>{
+        console.log(session?.user);
         e.preventDefault();
         setSubmitting(true);
         const formData = new FormData();
@@ -76,10 +80,6 @@ const UploadAudio= () => {
           setIsRecording(false);
         }
       };
-      // useEffect(() => {
-      //   console.log("audioStream:", audioStream);
-      //   setAudioFile(audioStream)
-      // }, [audioStream]);
       const saveAudioToLocalFile = (audioBlob) => {
         const url = URL.createObjectURL(audioBlob);
         const a = document.createElement('a');
@@ -125,12 +125,18 @@ const UploadAudio= () => {
                     </Link>
                     <button
                         type='submit'
-                        disabled={submitting}
-                        className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
+                        disabled={submitting || !(session?.user)}
+                        className={`listbtn bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300 ease-in-out w-full sm:w-auto ${
+                          !(session?.user || submitting) ? "opacity-50 hover:bg-purple-500" : ""
+                        }`}
                         onClick={uploadAudio}
                     >
                     {submitting ? `${type}ing...` : type}
                     </button>
+                    {!(session?.user) ? 
+                      <h1 style={{ color: 'red'}}>Sign In to Upload Audio</h1>
+                      : <h2></h2>
+                    }
                 </div>
             </form>
             </section>
